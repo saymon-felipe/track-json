@@ -36,7 +36,7 @@ Escolha uma opção no menu:
 ## 📦 Compilação para Executável
 Caso queira transformar o programa em um executável:
 ```bash
-pyinstaller --onefile --clean --icon=icon.ico main.py
+python -m PyInstaller --onefile --clean --icon=icon.ico --name=TrackJSON src/main.py
 ```
 O executável estará disponível na pasta `dist/`.
 
