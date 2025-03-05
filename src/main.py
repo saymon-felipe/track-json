@@ -58,12 +58,14 @@ def main():
             else:
                 print("ERROR: Caminho inválido. Tente novamente.")
         elif choice == "3":
+            type = input("Deseja editar os metadados sem caracteres especiais? (S/N): ").strip()
+            loading_animation()
             folder = input("Digite o caminho da pasta com as músicas: ").strip()
             if os.path.isdir(folder):
                 print("INIT: Iniciando a edição dos metadados...")
                 loading_animation()
                 
-                edit_music_metadata(folder)
+                edit_music_metadata(folder, type == "S" or type == "s")
                 
                 loading_animation()
                 print("OK: Metadados alterados com sucesso!")

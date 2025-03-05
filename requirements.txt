@@ -4,3 +4,4 @@ shutil
 re
 json
 eyed3
+unicodedata

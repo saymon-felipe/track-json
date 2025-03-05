@@ -1,10 +1,18 @@
 import os
 import eyed3
 import re
+import unicodedata
 
-def edit_music_metadata(folder):
+def remover_acentos(texto):
+    # Decompor o texto em caracteres e diacríticos (acentos, cedilhas, etc.)
+    nfkd = unicodedata.normalize('NFKD', texto)
+    # Filtrar e manter apenas os caracteres que não são acentuados ou especiais
+    texto_sem_acentos = ''.join([c for c in nfkd if not unicodedata.combining(c)])
+    print(f"OK: Metadado '{texto_sem_acentos}' foi editado sem caracteres especiais.")
+    return texto_sem_acentos
+
+def edit_music_metadata(folder, replaceSpecial):
     print("LOADING: Editando os metadados da música...")
-
     # Percorre todos os arquivos na pasta
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
@@ -23,8 +31,17 @@ def edit_music_metadata(folder):
             # Verifica se o arquivo foi carregado corretamente
             if audio_file and audio_file.tag:
                 # Atualiza as tags
-                audio_file.tag.title = match.group('title').strip()
-                audio_file.tag.artist = match.group('artist').strip()
+                # Debugging
+                if replaceSpecial:
+                    print("Removendo acentos...")
+                    audio_file.tag.title = remover_acentos(match.group('title').strip())
+                    audio_file.tag.artist = remover_acentos(match.group('artist').strip())
+                    audio_file.tag.album = remover_acentos(match.group('artist').strip())
+                else:
+                    audio_file.tag.title = match.group('title').strip()
+                    audio_file.tag.artist = match.group('artist').strip()
+                    audio_file.tag.album = match.group('artist').strip()
+                    
                 audio_file.tag.save()
 
                 print(f"OK: Arquivo '{filename}' alterado com sucesso.")
