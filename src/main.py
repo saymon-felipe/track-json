@@ -2,6 +2,7 @@ import os
 import time
 from file_manager import rename_files, save_music_titles, process_music_titles
 from json_creator import generate_json
+from metadata import edit_music_metadata
 
 def loading_animation():
     """Função para simular uma animação de loading simples no terminal"""
@@ -16,7 +17,8 @@ def main():
         print("\n **TrackJSON** ")
         print("1. Criar JSON com informações das músicas")
         print("2. Renomear músicas com nomes padronizados")
-        print("3. Sair")
+        print("3. Alterar metadados a partir de informações corrigidas")
+        print("4. Sair")
         choice = input("Escolha uma opção: ")
 
         if choice == "1":
@@ -56,11 +58,23 @@ def main():
             else:
                 print("ERROR: Caminho inválido. Tente novamente.")
         elif choice == "3":
+            folder = input("Digite o caminho da pasta com as músicas: ").strip()
+            if os.path.isdir(folder):
+                print("INIT: Iniciando a edição dos metadados...")
+                loading_animation()
+                
+                edit_music_metadata(folder)
+                
+                loading_animation()
+                print("OK: Metadados alterados com sucesso!")
+            else:
+                print("ERROR: Caminho inválido. Tente novamente.")
+        elif choice == "4":
             print("END: Saindo do programa. Até mais!")
             time.sleep(3)
             break
         else:
-            print("ERROR: Opção inválida. Escolha um número de 1 a 5.")
+            print("ERROR: Opção inválida. Escolha um número de 1 a 4.")
 
 if __name__ == "__main__":
     main()

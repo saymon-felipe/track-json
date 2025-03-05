@@ -2,6 +2,37 @@ import os
 import eyed3
 import re
 
+def edit_music_metadata(folder):
+    print("LOADING: Editando os metadados da música...")
+
+    # Percorre todos os arquivos na pasta
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+
+        # Verifica se é um arquivo de áudio suportado
+        if not os.path.isfile(file_path) or not filename.lower().endswith(('.mp3', '.wav', '.flac', '.m4a')):
+            continue
+
+        # Tenta capturar o artista e título a partir do nome do arquivo
+        match = re.match(r"^(?P<artist>.+?)\s*-\s*(?P<title>.+)$", filename.rsplit('.', 1)[0])
+        
+        if match:
+            # Carrega o arquivo de áudio
+            audio_file = eyed3.load(file_path)
+
+            # Verifica se o arquivo foi carregado corretamente
+            if audio_file and audio_file.tag:
+                # Atualiza as tags
+                audio_file.tag.title = match.group('title').strip()
+                audio_file.tag.artist = match.group('artist').strip()
+                audio_file.tag.save()
+
+                print(f"OK: Arquivo '{filename}' alterado com sucesso.")
+            else:
+                print(f"ERROR: Não foi possível carregar o arquivo '{filename}' ou ele não possui tags válidas.")
+        else:
+            print(f"ERROR: O nome do arquivo '{filename}' não segue o padrão 'artista - título'.")
+
 def extract_music_metadata(folder):
     """Extrai metadados de arquivos de áudio e preenche dados ausentes com base no nome do arquivo."""
 
