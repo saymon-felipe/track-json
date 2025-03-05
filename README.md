@@ -5,6 +5,7 @@ TrackJSON é uma ferramenta simples para organizar arquivos de música, gerando 
 ## 🚀 Funcionalidades
 - 📦 **Criação de JSON**: Gera um arquivo JSON contendo informações das músicas de uma pasta.
 - 📝 **Renomeação de Arquivos**: Renomeia arquivos de música para nomes limpos e padronizados.
+- 📝 **Edição de Metadados**: Edita as tags de metadados das músicas com base no nome do arquivo e no artista
 
 ## 🛠️ Instalação
 1. **Clone o repositório**:
